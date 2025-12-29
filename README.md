@@ -7,8 +7,8 @@ Il tool genera **boxplot** a partire dai file CSV prodotti da **ACUME**, permett
 
 ## 🚀 Uso
 1. Inserire nella cartella `src/main/resources` i file CSV generati da ACUME  
-2. Eseguire la classe *CSVProcessor* per preparare i file CSV alla visualizzazione  
-3. Eseguire la classe *BoxplotVisualizer* per la generazione dei boxplot  
+2. Eseguire la classe ***CSVProcessor*** per preparare i file CSV alla visualizzazione  
+3. Eseguire la classe ***BoxplotVisualizer*** per la generazione dei boxplot  
 
 ---
 
