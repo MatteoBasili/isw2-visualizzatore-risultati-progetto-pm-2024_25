@@ -2,7 +2,6 @@ package it.torvergata.bugprediction.visualization;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -17,27 +16,29 @@ public class CSVReaderUtil {
     public static List<Experiment> readCSV(String filePath) {
         List<Experiment> experiments = new ArrayList<>();
         try (Reader in = new FileReader(filePath)) {
-
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder()
-                    .setHeader()                  // Legge l’header dalla prima riga
-                    .setSkipHeaderRecord(true)    // Salta la riga dell’header
+                    .setHeader()
+                    .setSkipHeaderRecord(true)
                     .build()
                     .parse(in);
 
-            for (CSVRecord record : records) {
-                String classifier = record.get("Classifier");
-                String featureSelection = record.get("Feature_Selection");
-                String balancing = record.get("Balancing");
-                String costSensitive = record.get("Cost_Sensitive");
-                double precision = Double.parseDouble(record.get("Precision_0.5"));
-                double recall = Double.parseDouble(record.get("Recall"));
+            for (CSVRecord r : records) {
+                String classifier = r.get("Classifier");
+                String feat = r.get("Feature_Selection");
+                String bal = r.get("Balancing");
+                String cost = r.get("Cost_Sensitive");
 
-                experiments.add(new Experiment(classifier, featureSelection, balancing,
-                        costSensitive, precision, recall));
+                double f1 = Double.parseDouble(r.get("F1"));
+                double auc = Double.parseDouble(r.get("AUC"));
+                double mcc = Double.parseDouble(r.get("MCC"));
+                double npofB25 = Double.parseDouble(r.get("Npofb25"));
+
+                experiments.add(new Experiment(classifier, feat, bal, cost, f1, auc, mcc, npofB25));
             }
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore durante la lettura del CSV: " + filePath, e);
+            LOGGER.log(Level.SEVERE, "Errore lettura CSV: " + filePath, e);
         }
         return experiments;
     }
+
 }

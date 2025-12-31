@@ -1,36 +1,42 @@
 package it.torvergata.bugprediction.visualization;
 
 public class Experiment {
+
     private final String classifier;
     private final String featureSelection;
     private final String balancing;
     private final String costSensitive;
-    private final double precision;
-    private final double recall;
+    private final double f1;
+    private final double auc;
+    private final double mcc;
+    private final double npofB25;
 
     public Experiment(String classifier, String featureSelection, String balancing,
-                      String costSensitive, double precision, double recall) {
+                      String costSensitive, double f1, double auc, double mcc, double npofB25) {
         this.classifier = classifier;
         this.featureSelection = featureSelection;
         this.balancing = balancing;
         this.costSensitive = costSensitive;
-        this.precision = precision;
-        this.recall = recall;
+        this.f1 = f1;
+        this.auc = auc;
+        this.mcc = mcc;
+        this.npofB25 = npofB25;
     }
 
-    // getter
     public String getClassifier() { return classifier; }
-    public String getFeatureSelection() { return featureSelection; }
     public String getBalancing() { return balancing; }
-    public double getPrecision() { return precision; }
-    public double getRecall() { return recall; }
 
-    // per etichetta unica (es. "IBk_NoSelection_NoSampling_yesCostSensitive")
-    public String getLabel() {
-        return classifier + "_" + featureSelection + "_" + balancing + "_" + costSensitive;
-    }
+    public double getF1() { return f1; }
+    public double getAuc() { return auc; }
+    public double getMcc() { return mcc; }
+    public double getNpofB25() { return npofB25; }
 
     public String getLabelWithoutBalancing() {
-        return classifier + "_" + featureSelection + "_" + costSensitive;
+        String csShort = costSensitive.equalsIgnoreCase("noCostSensitive") ? "noCS" :
+                costSensitive.equalsIgnoreCase("yesCostSensitive") ? "yesCS" :
+                        costSensitive; // fallback, nel caso compaiano altri valori
+
+        return classifier + "_" + featureSelection + "_" + csShort;
     }
+
 }
